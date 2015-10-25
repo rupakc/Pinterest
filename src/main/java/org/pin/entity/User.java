@@ -67,4 +67,13 @@ public class User {
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "User [url=" + url + ", id=" + id + ", lastName=" + lastName
+				+ ", firstName=" + firstName + "]";
+	}
 }
