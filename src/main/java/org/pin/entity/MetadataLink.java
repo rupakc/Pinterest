@@ -68,4 +68,14 @@ public class MetadataLink {
 	public void setSiteName(String siteName) {
 		this.siteName = siteName;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MetadataLink [favicon=" + favicon + ", title=" + title
+				+ ", locale=" + locale + ", description=" + description
+				+ ", siteName=" + siteName + "]";
+	}
 }

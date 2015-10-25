@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -86,5 +87,20 @@ public class Utils {
 		}
 		
 		return set;
+	}
+	
+	/**
+	 * Converts a JSONArray into a list of Strings
+	 * @param array JSONArray which is to be converted
+	 * @return List<String> containing the contents of the JSONArray
+	 */
+	public static List<String> convertJSONArrayToList(JSONArray array) { 
+		
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < array.size(); i++) { 
+			list.add((String) array.get(i));
+		}
+		
+		return list;
 	}
 }

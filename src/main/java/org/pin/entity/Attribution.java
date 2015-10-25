@@ -81,4 +81,14 @@ public class Attribution {
 	public void setProviderFaviconUrl(String providerFaviconUrl) {
 		this.providerFaviconUrl = providerFaviconUrl;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Attribution [title=" + title + ", url=" + url + ", authorUrl="
+				+ authorUrl + ", authorName=" + authorName + ", providerName="
+				+ providerName + ", providerFaviconUrl=" + providerFaviconUrl
+				+ "]";
+	}
 }

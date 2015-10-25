@@ -1,11 +1,10 @@
 package org.pin.entity;
 
-import java.util.Date;
 import java.util.List;
 
 public class MetadataArticle {
 	
-	private Date publishedAt;
+	private String publishedAt;
 	private String description;
 	private String name;
 	List<String> authors;
@@ -13,13 +12,13 @@ public class MetadataArticle {
 	/**
 	 * @return the publishedAt
 	 */
-	public Date getPublishedAt() {
+	public String getPublishedAt() {
 		return publishedAt;
 	}
 	/**
 	 * @param publishedAt the publishedAt to set
 	 */
-	public void setPublishedAt(Date publishedAt) {
+	public void setPublishedAt(String publishedAt) {
 		this.publishedAt = publishedAt;
 	}
 	/**
@@ -57,5 +56,14 @@ public class MetadataArticle {
 	 */
 	public void setAuthors(List<String> authors) {
 		this.authors = authors;
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MetadataArticle [publishedAt=" + publishedAt + ", description="
+				+ description + ", name=" + name + ", authors=" + authors + "]";
 	}
 }

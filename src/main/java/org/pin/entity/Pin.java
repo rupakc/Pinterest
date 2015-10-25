@@ -1,7 +1,5 @@
 package org.pin.entity;
 
-import java.util.Date;
-
 /** 
  * Defines a pin object corresponding to a pin fetched
  * @author Rupak Chakraborty
@@ -25,10 +23,11 @@ public class Pin {
 	private String note;
 	private String mediaType;
 	private String color;
-	private Date createdAt;
+	private String createdAt;
 	private String imageUrl;
 	private Long imageWidth;
 	private Long imageHeight;
+	private String Id;
 	
 	/**
 	 * @return the likeCount
@@ -204,6 +203,23 @@ public class Pin {
 	public String getMediaType() {
 		return mediaType;
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Pin [likeCount=" + likeCount + ", commentCount=" + commentCount
+				+ ", repinCount=" + repinCount + ", creatorLastName="
+				+ creatorLastName + ", creatorFirstName=" + creatorFirstName
+				+ ", creatorUrl=" + creatorUrl + ", creatorId=" + creatorId
+				+ ", link=" + link + ", originalLink=" + originalLink
+				+ ", boardId=" + boardId + ", boardUrl=" + boardUrl
+				+ ", boardName=" + boardName + ", url=" + url + ", note="
+				+ note + ", mediaType=" + mediaType + ", color=" + color
+				+ ", createdAt=" + createdAt + ", imageUrl=" + imageUrl
+				+ ", imageWidth=" + imageWidth + ", imageHeight=" + imageHeight
+				+ ", Id=" + Id + "]";
+	}
 	/**
 	 * @param mediaType the mediaType to set
 	 */
@@ -225,13 +241,13 @@ public class Pin {
 	/**
 	 * @return the createdAt
 	 */
-	public Date getCreatedAt() {
+	public String getCreatedAt() {
 		return createdAt;
 	}
 	/**
 	 * @param createdAt the createdAt to set
 	 */
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
 	/**
@@ -269,5 +285,17 @@ public class Pin {
 	 */
 	public void setImageHeight(Long imageHeight) {
 		this.imageHeight = imageHeight;
+	}
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return Id;
+	}
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		Id = id;
 	}
 }
