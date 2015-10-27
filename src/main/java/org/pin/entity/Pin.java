@@ -28,6 +28,10 @@ public class Pin {
 	private Long imageWidth;
 	private Long imageHeight;
 	private String Id;
+	private Attribution attribution;
+	private MetadataArticle metaArticle;
+	private MetadataLink metaLink;
+	private MetadataRecipe metaRecipe;
 	
 	/**
 	 * @return the likeCount
@@ -297,5 +301,53 @@ public class Pin {
 	 */
 	public void setId(String id) {
 		Id = id;
+	}
+	/**
+	 * @return the attribution
+	 */
+	public Attribution getAttribution() {
+		return attribution;
+	}
+	/**
+	 * @param attribution the attribution to set
+	 */
+	public void setAttribution(Attribution attribution) {
+		this.attribution = attribution;
+	}
+	/**
+	 * @return the metaArticle
+	 */
+	public MetadataArticle getMetaArticle() {
+		return metaArticle;
+	}
+	/**
+	 * @param metaArticle the metaArticle to set
+	 */
+	public void setMetaArticle(MetadataArticle metaArticle) {
+		this.metaArticle = metaArticle;
+	}
+	/**
+	 * @return the metaLink
+	 */
+	public MetadataLink getMetaLink() {
+		return metaLink;
+	}
+	/**
+	 * @param metaLink the metaLink to set
+	 */
+	public void setMetaLink(MetadataLink metaLink) {
+		this.metaLink = metaLink;
+	}
+	/**
+	 * @return the metaRecipe
+	 */
+	public MetadataRecipe getMetaRecipe() {
+		return metaRecipe;
+	}
+	/**
+	 * @param metaRecipe the metaRecipe to set
+	 */
+	public void setMetaRecipe(MetadataRecipe metaRecipe) {
+		this.metaRecipe = metaRecipe;
 	}
 }

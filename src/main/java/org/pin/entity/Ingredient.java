@@ -36,4 +36,13 @@ public class Ingredient {
 	public void setIngredients(Map<String, String> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Ingredient [category=" + category + ", ingredients="
+				+ ingredients + "]";
+	}
 }

@@ -64,4 +64,14 @@ public class MetadataRecipe {
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "MetadataRecipe [name=" + name + ", serves=" + serves
+				+ ", servingSummary=" + servingSummary + ", ingredients="
+				+ ingredients + "]";
+	}
 }

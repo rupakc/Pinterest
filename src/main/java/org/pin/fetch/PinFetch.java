@@ -1,13 +1,19 @@
 package org.pin.fetch;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.pin.entity.Attribution;
+import org.pin.entity.Ingredient;
 import org.pin.entity.MetadataArticle;
 import org.pin.entity.MetadataLink;
+import org.pin.entity.MetadataRecipe;
 import org.pin.entity.Pin;
 import org.pin.util.Utils;
 
@@ -25,8 +31,8 @@ public class PinFetch {
 	String pinId = "";
 	
 	/** 
-	 * 
-	 * @param pinId
+	 * public constructor to initialize the PinFetch object with pinId
+	 * @param pinId String containing the unique Id of the pin
 	 */
 	public PinFetch(String pinId) { 
 		
@@ -34,9 +40,9 @@ public class PinFetch {
 	}
 	
 	/** 
-	 * 
-	 * @param pinId
-	 * @param accessToken
+	 * public constructor to initialize the PinFetch object
+	 * @param pinId String containing the pinID
+	 * @param accessToken String containing the accessToken
 	 */
 	public PinFetch(String pinId,String accessToken) { 
 		
@@ -45,8 +51,8 @@ public class PinFetch {
 	}
 	
 	/** 
-	 * 
-	 * @return
+	 * Returns the full url of the pin endpoint api
+	 * @return String containing the full url
 	 */
 	private String getFullUrl() { 
 		
@@ -55,8 +61,8 @@ public class PinFetch {
 	}
 	
 	/** 
-	 * 
-	 * @return
+	 * Fetches and returns the pin
+	 * @return Pin object associated with the  JSON response
 	 */
 	public Pin getPin() { 
 		Pin pin = null;
@@ -75,9 +81,9 @@ public class PinFetch {
 	}
 	
 	/** 
-	 * 
-	 * @param json
-	 * @return
+	 * Converts a JSON response into a pin object
+	 * @param json JSONObject containing the JSON response
+	 * @return Pin object containing the necessary fields
 	 */
 	public Pin getPinInfo(JSONObject json) { 
 		
@@ -110,20 +116,23 @@ public class PinFetch {
 		pin.setImageHeight((Long) image.get("height"));
 		pin.setImageWidth((Long) image.get("width"));
 		pin.setId((String) data.get("id"));
+		pin.setMetaRecipe((getMetadataRecipeInfo(data)));
+		pin.setMetaArticle(getMetadataArticleInfo(data));
+		pin.setMetaLink(getMetadataLinkInfo(data));
+		pin.setAttribution((getPinAttributionInfo(data)));
 		
 		return pin;
 	}
 	
 	/** 
-	 * 
-	 * @param json
-	 * @return
+	 * Returns the metaDataLink information associated with a given json object
+	 * @param json JSONObject containing the metadata
+	 * @return MetadataLink containing the metadata link information
 	 */
 	public MetadataLink getMetadataLinkInfo(JSONObject json) { 
 		
 		MetadataLink metaDataLink = new MetadataLink();
-		JSONObject data = (JSONObject) json.get("data");
-		JSONObject metaData = (JSONObject) data.get("metadata");
+		JSONObject metaData = (JSONObject) json.get("metadata");
 		JSONObject link = (JSONObject) metaData.get("link");
 		
 		if (link != null) { 
@@ -139,15 +148,14 @@ public class PinFetch {
 	}
 	
 	/** 
-	 * 
-	 * @param json
-	 * @return
+	 * Returns the article info associated with the pin meta data
+	 * @param json JSONObject containing the JSON response
+	 * @return MetadataArticle object
 	 */
 	public MetadataArticle getMetadataArticleInfo(JSONObject json) { 
 		
 		MetadataArticle metaDataArticle = new MetadataArticle();
-		JSONObject data = (JSONObject) json.get("data");
-		JSONObject metaData = (JSONObject) data.get("metadata");
+		JSONObject metaData = (JSONObject) json.get("metadata");
 		JSONObject article = (JSONObject) metaData.get("article");
 		
 		if (article != null) { 
@@ -162,15 +170,14 @@ public class PinFetch {
 	} 
 	
 	/** 
-	 * 
-	 * @param json
-	 * @return
+	 * Returns the attribution information associated with a given pin object
+	 * @param json JSON object containing the entire json response
+	 * @return Attribution containing the attribution information
 	 */
 	public Attribution getPinAttributionInfo(JSONObject json) {  
 		
 		Attribution attribute = new Attribution();
-		JSONObject data = (JSONObject) json.get("data");
-		JSONObject attribution = (JSONObject) data.get("attribution");
+		JSONObject attribution = (JSONObject) json.get("attribution");
 		
 		if (attribution != null) { 
 			
@@ -183,5 +190,65 @@ public class PinFetch {
 		}
 		
 		return attribute;
+	}
+	
+	/** 
+	 * Extracts the metadata recipe information for a given pin (if present)
+	 * @param json JSON object containing the metadata information
+	 * @return MetadataRecipe object containing the required information
+	 */
+	public MetadataRecipe getMetadataRecipeInfo(JSONObject json) {  
+		
+		MetadataRecipe recipe = new MetadataRecipe();
+		JSONObject metadataJSON = (JSONObject) json.get("metadata");
+		JSONObject recipeJSON = (JSONObject) metadataJSON.get("recipe");
+		
+		if (recipeJSON != null) { 
+			
+			recipe.setName((String) recipeJSON.get("name"));
+			recipe.setIngredients(getIngredientInfo(metadataJSON));
+			JSONObject servings = (JSONObject) recipeJSON.get("servings");
+			recipe.setServes((String) servings.get("serves"));
+			recipe.setServingSummary((String) servings.get("summary"));
+		}
+		
+		return recipe;
+	} 
+	
+	/** 
+	 * If a recipe exists returns a list of ingredients mentioned
+	 * @param json JSONObject containing the recipe information
+	 * @return List<Ingredient> containing the ingredient list
+	 */
+	public List<Ingredient> getIngredientInfo(JSONObject json) { 
+		
+		List<Ingredient> ingredientList = new ArrayList<Ingredient>();
+		JSONObject recipe = (JSONObject) json.get("recipe");
+		Ingredient single;
+
+		if (recipe != null) { 
+			
+			JSONArray ingredients = (JSONArray) recipe.get("ingredients"); 
+			
+			for (int i = 0; i < ingredients.size(); i++) {  
+				
+				single = new Ingredient();
+				JSONObject temp = (JSONObject) ingredients.get(i);
+				single.setCategory((String) temp.get("category"));
+				JSONArray innerItems = (JSONArray) temp.get("ingredients");
+				Map<String,String> ingredientMap = new HashMap<String,String>();  
+				
+				for (int j = 0; j < innerItems.size(); j++) {  
+					
+					JSONObject innerTemp = (JSONObject) innerItems.get(j);
+					ingredientMap.put((String)innerTemp.get("name"),(String) innerTemp.get("amount"));
+				}
+				
+				single.setIngredients(ingredientMap);
+				ingredientList.add(single);
+			}
+		}
+		
+		return ingredientList;
 	}
 }
