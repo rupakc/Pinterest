@@ -30,6 +30,9 @@ public class PinFetch {
 	String suffixParam = "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Cboard%2Ccolor%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata%2Coriginal_link";
 	String pinId = "";
 	
+	public PinFetch() { 
+		
+	}
 	/** 
 	 * public constructor to initialize the PinFetch object with pinId
 	 * @param pinId String containing the unique Id of the pin
@@ -88,7 +91,7 @@ public class PinFetch {
 	public Pin getPinInfo(JSONObject json) { 
 		
 		Pin pin = new Pin();
-		JSONObject data = (JSONObject) json.get("data");
+		JSONObject data = (JSONObject) json.get("data"); 
 		JSONObject counts = (JSONObject) data.get("counts");
 		JSONObject creator = (JSONObject) data.get("creator");
 		JSONObject board = (JSONObject) data.get("board");
@@ -163,12 +166,31 @@ public class PinFetch {
 			metaDataArticle.setDescription((String) article.get("description"));
 			metaDataArticle.setName((String) article.get("name"));
 			metaDataArticle.setPublishedAt((String) article.get("published_at"));
-			metaDataArticle.setAuthors(Utils.convertJSONArrayToList((JSONArray) article.get("authors")));
+			metaDataArticle.setAuthors(getMetadataArticleAuthors(metaData));
 		}
 		
 		return metaDataArticle;
 	} 
 	
+	/** 
+	 * Returns a list of author associated with a meta data article
+	 * @param metadata JSONObject containing the meta data
+	 * @return List<String> containing the author list
+	 */
+	public List<String> getMetadataArticleAuthors(JSONObject metadata) { 
+		
+		JSONObject article = (JSONObject) metadata.get("article");
+		List<String> authorList = new ArrayList<String>();
+		if (article != null) { 
+			JSONArray jsonArray = (JSONArray) article.get("authors");
+			for (int i = 0; i < jsonArray.size(); i++) { 
+				JSONObject author = (JSONObject) jsonArray.get(i);
+				authorList.add((String) author.get("name"));
+			}
+		}
+		
+		return authorList;
+	}
 	/** 
 	 * Returns the attribution information associated with a given pin object
 	 * @param json JSON object containing the entire json response
